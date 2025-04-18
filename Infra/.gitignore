@@ -1,0 +1,15 @@
+# Ignore Terraform state files
+*.tfstate
+*.tfstate.backup
+
+# Ignore sensitive variable files
+terraform.tfvars
+
+# Ignore local .terraform directories
+.terraform/
+
+# Ignore SSH private keys or certs
+*.pem
+
+# Ignore log files
+*.log
