@@ -50,7 +50,7 @@ In Task 2, we create the necessary infrastructure to deploy SimpleTimeService on
 Prerequisites for Task 2
 AWS Account: Ensure you have an AWS account and the necessary permissions to create resources.
 
-IAM User: You must have an IAM user with the required permissions and note down your IAM User ARN and IAM Username.
+IAM User: You must have an IAM user with the required permissions. Make sure you have noted down your IAM User ARN and IAM Username.
 
 AWS CLI: Install and configure the AWS CLI using aws configure.
 
@@ -81,6 +81,12 @@ bash
 Copy
 Edit
 terraform init
+During the initialization, Terraform will prompt you to enter your IAM User ARN and IAM Username:
+
+IAM User ARN: Enter the ARN of your IAM user.
+
+IAM Username: Enter the username associated with your IAM user.
+
 Validate Terraform Configuration:
 
 bash
