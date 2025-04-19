@@ -1,143 +1,99 @@
-SimpleTimeService Deployment: Docker & AWS EKS
-This repository contains the SimpleTimeService application and Terraform configurations for deploying it using Docker and AWS EKS.
+📄 SimpleTimeServiceApp
+A minimalist microservice and infrastructure deployment project.
 
-Task 1 - Minimalist Application Development / Docker / Kubernetes
-Application Overview
-SimpleTimeService is a simple microservice built using Flask in Python. It returns the current timestamp and the IP address of the user in a JSON format when accessed via the root (/) URL.
+This repository includes:
 
-Prerequisites for Task 1
-Docker Desktop should be running on your machine.
+Task 1: A simple Python + Flask microservice called SimpleTimeService, containerized using Docker.
 
-Steps to Run the Application Locally:
-Clone the Repository:
+Task 2: AWS infrastructure provisioning using Terraform to deploy the container on an Amazon EKS cluster with an external Load Balancer.
 
-bash
+✅ Task 1 — SimpleTimeService Application
+📌 Description:
+A lightweight web server that returns a JSON response with the current timestamp and the visitor's IP address when accessed at the / route.
+
+Example JSON Response
+
+json
 Copy
 Edit
-git clone https://github.com/nikhilnamaji/simpletimeserviceapp.git
-cd simpletimeserviceapp
-Build the Docker Image:
+{
+  "timestamp": "2025-04-19 14:30:55",
+  "ip": "123.45.67.89"
+}
+📌 Dockerized Application:
+Built using Python 3.12-slim base image.
+
+Runs securely as a non-root user inside the container.
+
+Exposes port 5000 inside the container.
+
+📌 To Run Locally:
+Make sure Docker Desktop is running before executing:
 
 bash
 Copy
 Edit
 docker build -t simpletimeservice .
-Run the Docker Container:
-
-bash
-Copy
-Edit
-docker run -p 5000:5000 simpletimeservice
-Access the Application: Open your browser and navigate to:
+docker run -d -p 5000:5000 simpletimeservice
+Now open your browser and go to:
 
 arduino
 Copy
 Edit
 http://localhost:5000
-You will see a JSON response like:
+✅ Task 2 — AWS EKS Infrastructure with Terraform
+📌 Infrastructure Overview:
+VPC with 2 public and 2 private subnets.
 
-json
-Copy
-Edit
-{
-  "timestamp": "<current date and time>",
-  "ip": "<visitor IP>"
-}
-Task 2 - Terraform Infrastructure Deployment (AWS EKS)
-Application Deployment on AWS using Terraform and EKS
-In Task 2, we create the necessary infrastructure to deploy SimpleTimeService on AWS using EKS.
+Amazon EKS Cluster deployed inside the VPC.
 
-Prerequisites for Task 2
-AWS Account: Ensure you have an AWS account and the necessary permissions to create resources.
+Kubernetes Deployment running the SimpleTimeService container.
 
-IAM User: You must have an IAM user with the required permissions. Make sure you have noted down your IAM User ARN and IAM Username.
+Kubernetes Service of type LoadBalancer.
 
-AWS CLI: Install and configure the AWS CLI using aws configure.
+AWS Application Load Balancer (ALB) exposing the service publicly.
 
-Terraform: Ensure that Terraform is installed on your system.
-
-Infrastructure Details:
-VPC: A VPC with 2 public and 2 private subnets.
-
-EKS Cluster: An EKS cluster deployed in the VPC.
-
-Load Balancer: A load balancer deployed in the public subnets.
-
-Application Deployment: The SimpleTimeService container is deployed on EKS in the private subnets.
-
-Steps to Deploy the Infrastructure:
-Clone the Repository:
-
-bash
-Copy
-Edit
-git clone https://github.com/nikhilnamaji/simpletimeserviceapp.git
-cd simpletimeserviceapp/Infra
-AWS CLI Configuration: Run aws configure and provide your AWS credentials.
-
-Initialize Terraform:
-
-bash
-Copy
-Edit
-terraform init
-During the initialization, Terraform will prompt you to enter your IAM User ARN and IAM Username:
-
-IAM User ARN: Enter the ARN of your IAM user.
-
-IAM Username: Enter the username associated with your IAM user.
-
-Validate Terraform Configuration:
-
-bash
-Copy
-Edit
-terraform validate
-Terraform Plan:
-
-bash
-Copy
-Edit
-terraform plan
-Terraform Apply:
-
-bash
-Copy
-Edit
-terraform apply
-Get the Public URL of the Service: After the infrastructure is deployed, run the following command to get the external URL of the service:
-
-bash
-Copy
-Edit
-kubectl get svc
-The output will look like:
-
-bash
-Copy
-Edit
-NAME                        TYPE           CLUSTER-IP      EXTERNAL-IP
-simpletimeservice-service   LoadBalancer   172.20.29.231   ae925cacef860493a9b5edd68192e26f-995287062.us-east-1.elb.amazonaws.com
-Access the Application: Copy the EXTERNAL-IP from the output and access the application in your browser:
-
+📌 Application URL (while live):
 arduino
 Copy
 Edit
 http://ae925cacef860493a9b5edd68192e26f-995287062.us-east-1.elb.amazonaws.com/
-You will see a JSON response like:
+(The infrastructure has now been destroyed to avoid AWS charges. It can be redeployed using the Terraform code in this repo.)
 
-json
+📌 Ports:
+Container runs on: 5000
+
+
+📌 Prerequisites:
+AWS CLI installed and configured using aws configure
+
+Docker installed and running
+
+Terraform installed
+
+Note down your IAM User ARN and IAM Username
+(Terraform will prompt for these during terraform init)
+
+📌 Deployment Steps:
+bash
 Copy
 Edit
-{
-  "timestamp": "<current date and time>",
-  "ip": "<visitor IP>"
-}
-Conclusion
-By completing both tasks, you have successfully:
+terraform init
+# Enter your IAM User ARN and Username when prompted
 
-Developed and dockerized the SimpleTimeService microservice.
+terraform validate
+terraform plan
+terraform apply
+📌 Verification:
+After successful deployment:
 
-Created the infrastructure on AWS using Terraform and EKS.
+bash
+Copy
+Edit
+kubectl get nodes
+kubectl get svc
+Note the EXTERNAL-IP of the LoadBalancer service.
 
-Deployed the containerized application on AWS, making it accessible via a public URL.
+Open it in your browser to see the JSON response.
+
+
