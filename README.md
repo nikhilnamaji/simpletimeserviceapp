@@ -41,6 +41,8 @@ arduino
 Copy
 Edit
 http://localhost:5000
+
+
 ✅ Task 2 — AWS EKS Infrastructure with Terraform
 📌 Infrastructure Overview:
 VPC with 2 public and 2 private subnets.
